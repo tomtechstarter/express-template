@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 
 // Zugriff auf Umgebungsvariablen
 const { PORT } = process.env;
 
 // Initialisierung von expres
 const app = express();
+app.use(bodyParser.json());
 // Use for development
 app.use(cors());
 
@@ -25,6 +27,7 @@ const profiles = [
   },
 ];
 
+//  ***GET REQUESTS***
 // Get all Profiles
 app.get("/profiles", (req, res) => {
   res.json({ profiles });
@@ -35,6 +38,15 @@ app.get("/profile", (req, res) => {
   const userId = parseInt(req.query.userId);
   const userProfile = profiles.find((item) => item.id === userId);
   res.json({ profile: userProfile });
+});
+
+//  ***POST REQUESTS***
+app.post("/profile", (req, res) => {
+  const newUser = req.body.user;
+
+  profiles.push(newUser);
+
+  res.json({ newProfile: newUser });
 });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
