@@ -9,12 +9,32 @@ const app = express();
 // Use for development
 app.use(cors());
 
-app.get("/test", (req, res) => {
-  res.send("Hello World!");
+// Datenbank simulieren
+const profiles = [
+  {
+    id: 1,
+    firstName: "Max",
+    name: "Mustermann",
+    birthDate: new Date("1990-10-10"),
+  },
+  {
+    id: 2,
+    firstName: "Nina",
+    name: "Mustermann",
+    birthDate: new Date("1980-10-10"),
+  },
+];
+
+// Get all Profiles
+app.get("/profiles", (req, res) => {
+  res.json({ profiles });
 });
 
+// Return profile from a specific user
 app.get("/profile", (req, res) => {
-  res.json({ profile: { name: "Max" } });
+  const userId = parseInt(req.query.userId);
+  const userProfile = profiles.find((item) => item.id === userId);
+  res.json({ profile: userProfile });
 });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
