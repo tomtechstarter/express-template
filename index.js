@@ -49,7 +49,7 @@ app.post("/profile", (req, res) => {
   res.json({ newProfile: newUser });
 });
 
-//  ***POST REQUESTS***
+//  ***PUT REQUESTS***
 app.put("/profile/addusername", (req, res) => {
   const { username, userId } = req.body;
 
@@ -62,6 +62,16 @@ app.put("/profile/addusername", (req, res) => {
   profiles = deletedProfiles;
 
   res.json({ updatedProfile: currentUser });
+});
+
+//  ***DELETE REQUESTS***
+app.delete("/profile", (req, res) => {
+  const { userId } = req.body;
+
+  const deletedProfiles = profiles.filter((item) => item.id !== userId);
+  profiles = deletedProfiles;
+
+  res.json({ deletedUserId: userId });
 });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
