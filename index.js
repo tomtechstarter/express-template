@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Datenbank simulieren
-const profiles = [
+let profiles = [
   {
     id: 1,
     firstName: "Max",
@@ -47,6 +47,21 @@ app.post("/profile", (req, res) => {
   profiles.push(newUser);
 
   res.json({ newProfile: newUser });
+});
+
+//  ***POST REQUESTS***
+app.put("/profile/addusername", (req, res) => {
+  const { username, userId } = req.body;
+
+  const currentUser = profiles.find((item) => item.id === userId);
+  currentUser.username = username;
+
+  const deletedProfiles = profiles.filter((item) => item.id !== userId);
+  deletedProfiles.push(currentUser);
+
+  profiles = deletedProfiles;
+
+  res.json({ updatedProfile: currentUser });
 });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
