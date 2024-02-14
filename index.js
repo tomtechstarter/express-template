@@ -9,6 +9,7 @@ const { PORT } = process.env;
 // Initialisierung von expres
 const app = express();
 app.use(bodyParser.json());
+
 // Use for development
 app.use(cors());
 
