@@ -20,6 +20,11 @@ let profiles = [
 const UserRouter = Router();
 
 //  ***GET REQUESTS***
+//Return all profiles
+UserRouter.get("/profile/all", (req, res) => {
+  res.status(StatusCodes.OK).json(profiles);
+});
+
 // Return profile from a specific user
 UserRouter.get("/profile", (req, res) => {
   const userId = parseInt(req.query.userId);
