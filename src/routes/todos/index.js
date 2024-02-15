@@ -3,6 +3,23 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const TodosRouter = Router();
 
+const todos = [
+  {
+    id: 1,
+    userId: 1,
+    task: "Wäsche waschen",
+    isDone: true,
+    dueDate: new Date("2024-03-03"),
+  },
+  {
+    id: 2,
+    userId: 1,
+    task: "Müll rausbrigen",
+    isDone: false,
+    dueDate: new Date("2024-03-03"),
+  },
+];
+
 // GET REQUESTS
 // /v1/todos/byid
 TodosRouter.get("/byid", (req, res) => {
