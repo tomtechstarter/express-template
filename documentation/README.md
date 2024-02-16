@@ -57,6 +57,20 @@
 - Es gibt verschiedene JavaScript Module
 - Ab dem Modul ES6 wurde import eingeführt
 
+**Require**
+
+```javascript
+// Kennt ihr von eurer Express App
+const { Router } = require("express");
+```
+
+**Imports**
+
+```javascript
+// Seit ES6 import Schreibweise eingeführt (Kennt iht aus React)
+import { useState } from "react";
+```
+
 **Exports:**
 
 - Es gibt einen export und einen default export, welche angeben, was von einer anderen Datei importiert werden kann
@@ -260,7 +274,7 @@ Folgendes haben wir also mit dem Aufruf dieses Abschnitts erreicht:
 GET Ergebnis mit hinterlegter `todoId`
 ![](./images/GET_TODOID.png)
 
-GET Ergibnis ohne hinterlegter `todoId`
+GET Ergebnis ohne hinterlegter `todoId`
 ![](./images/GET_NO_TODO_ID.png)
 
 ### PUT, POST, DELETE
