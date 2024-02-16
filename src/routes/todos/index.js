@@ -47,8 +47,10 @@ TodosRouter.get("/byid", (req, res) => {
 
 // Alle Todos von einer UserId
 TodosRouter.get("/byuserid", (req, res) => {
-  const userId = req.body.userId;
-  //const userId = req.query.userId;
+  // const userId = req.body.userId;
+  // const userId = parseInt(req.query.userId);
+  const userId = req.query.userId;
+  console.log(userId);
 
   if (!userId) {
     res
@@ -57,10 +59,14 @@ TodosRouter.get("/byuserid", (req, res) => {
     return;
   }
 
-  const userTodos = todos.filter((todo) => todo.userId === userId);
+  const userTodos = todos.filter((todo) => todo.userId == userId);
 
   res.status(StatusCodes.OK).json(userTodos);
   // res.status(StatusCodes.OK).send(JSON.stringify(userTodos)); //alternativ
+});
+
+TodosRouter.get("/all", (req, res) => {
+  res.status(StatusCodes.OK).send(todos);
 });
 
 // PUT REQUESTS

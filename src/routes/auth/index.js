@@ -4,6 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const AuthRouter = Router();
 
 AuthRouter.get("/login", (req, res) => {
+  console.log(res);
   res.status(StatusCodes.OK).send("User Login");
 });
 
