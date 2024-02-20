@@ -42,7 +42,10 @@ TodosRouter.get("/byid", (req, res) => {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  res.status(StatusCodes.OK).send("Get Todo by (todo) id");
+  const todo = todos.find((item) => item.id == todoId);
+  // 1 == '1' --> true
+  // 1 === '1' --> false
+  res.status(StatusCodes.OK).json({ todo: todo });
 });
 
 // Alle Todos von einer UserId
@@ -73,13 +76,15 @@ TodosRouter.get("/all", (req, res) => {
 TodosRouter.put("/mark", (req, res) => {
   res.status(StatusCodes.OK).send("Todo als erledeigt markieren");
 });
+
 TodosRouter.put("/update", (req, res) => {
   res.status(StatusCodes.OK).send("Todo aktuallisieren");
 });
 
 // POST REQUESTS
 TodosRouter.post("/create", (req, res) => {
-  res.status(StatusCodes.OK).send("Erstellen eines Todos");
+  const newTodo = req.body.newTodo;
+  res.status(StatusCodes.OK).json({ todo: newTodo });
 });
 
 // DELETE REQUEST
