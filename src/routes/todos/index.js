@@ -117,7 +117,17 @@ TodosRouter.put("/update", (req, res) => {
 
 // POST REQUESTS
 TodosRouter.post("/create", (req, res) => {
-  const newTodo = req.body.newTodo;
+  const { newId, newTask, newIsDone, newDueDate } = req.body;
+
+  const newTodo = {
+    id: newId,
+    task: newTask,
+    isDone: newIsDone,
+    dueDate: new Date(newDueDate),
+  };
+
+  todos.push(newTodo);
+
   res.status(StatusCodes.OK).json({ todo: newTodo });
 });
 
