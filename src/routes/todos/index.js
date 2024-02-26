@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const todoSequelize = require("../../database/setup/database");
+const TodoModel = require("../../database/models/TodoModel");
 
 const TodosRouter = Router();
 
@@ -116,19 +118,21 @@ TodosRouter.put("/update", (req, res) => {
 });
 
 // POST REQUESTS
-TodosRouter.post("/create", (req, res) => {
-  const { newId, newTask, newIsDone, newDueDate } = req.body;
+TodosRouter.post("/create", async (req, res) => {
+  const { newTask, newIsDone, newDueDate, newUserId } = req.body;
 
   const newTodo = {
-    id: newId,
     task: newTask,
     isDone: newIsDone,
     dueDate: new Date(newDueDate),
+    userId: newUserId,
   };
 
-  todos.push(newTodo);
+  const todo = await TodoModel.create(newTodo);
 
-  res.status(StatusCodes.OK).json({ todo: newTodo });
+  // todos.push(newTodo);
+
+  res.status(StatusCodes.OK).json({ todo });
 });
 
 // DELETE REQUEST
