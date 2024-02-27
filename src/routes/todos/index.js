@@ -38,15 +38,14 @@ let todos = [
 
 // GET REQUESTS
 // /v1/todos/bytodoid
-TodosRouter.get("/byid", (req, res) => {
+TodosRouter.get("/byid", async (req, res) => {
   const todoId = req.query.todoId;
   if (!todoId) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  const todo = todos.find((item) => item.id == todoId);
-  // 1 == '1' --> true
-  // 1 === '1' --> false
+  const todo = await TodoModel.findOne({ where: { id: todoId } });
+
   res.status(StatusCodes.OK).json({ todo: todo });
 });
 
@@ -95,25 +94,19 @@ TodosRouter.put("/mark", (req, res) => {
   res.status(StatusCodes.OK).json({ updatedTodo: todo });
 });
 
-TodosRouter.put("/update", (req, res) => {
+TodosRouter.put("/update", async (req, res) => {
   const { todoId, newTask, newIsDone, newDueDate } = req.body;
 
-  const todo = todos.find((todo) => todo.id == todoId);
+  await TodoModel.update(
+    {
+      task: newTask,
+      isDone: newIsDone,
+      dueDate: newDueDate,
+    },
+    { where: { id: todoId } }
+  );
 
-  // wir überschreiben bestimmte Werte des Todos
-  todo.task = newTask;
-  todo.isDone = newIsDone;
-  todo.dueDate = new Date(newDueDate);
-
-  // // Todo rauslöschen
-  // const newTodos = todos.filter((todo) => todo.id != todoId);
-
-  // // Geupdatete Todo wieder hinzufügen
-  // newTodos.push(todo);
-
-  // todos = newTodos;
-
-  console.log(todos);
+  const todo = await TodoModel.findByPk(todoId);
 
   res.status(StatusCodes.OK).json({ updatedTodo: todo });
 });
@@ -135,14 +128,11 @@ TodosRouter.post("/create", async (req, res) => {
 });
 
 // DELETE REQUEST
-TodosRouter.delete("/delete", (req, res) => {
+TodosRouter.delete("/delete", async (req, res) => {
   const { todoId } = req.body; //req.body.todoId
 
-  console.log("MY BODY", req.body);
-  const newTodosArray = todos.filter((item) => item.id != todoId);
+  await TodoModel.destroy({ where: { id: todoId } });
 
-  console.log("NEW TODOS", newTodosArray);
-  todos = newTodosArray;
   res.status(StatusCodes.OK).json({ deletedTodosId: todoId });
 });
 
