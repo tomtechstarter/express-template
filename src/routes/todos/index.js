@@ -70,7 +70,8 @@ TodosRouter.get("/byuserid", (req, res) => {
   // res.status(StatusCodes.OK).send(JSON.stringify(userTodos)); //alternativ
 });
 
-TodosRouter.get("/all", (req, res) => {
+TodosRouter.get("/all", async (req, res) => {
+  const todos = await TodoModel.findAll();
   res.status(StatusCodes.OK).send(todos);
 });
 
