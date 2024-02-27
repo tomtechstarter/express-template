@@ -19,7 +19,7 @@ app.use(cors());
 todoSequelize
   .sync()
   .then(() => {
-    console.log("DB has been success");
+    console.log("DB has been successfully initialized");
   })
   .catch((e) => {
     console.log(e);

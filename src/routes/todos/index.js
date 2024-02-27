@@ -130,9 +130,7 @@ TodosRouter.post("/create", async (req, res) => {
 
   const todo = await TodoModel.create(newTodo);
 
-  // todos.push(newTodo);
-
-  res.status(StatusCodes.OK).json({ todo });
+  res.status(StatusCodes.OK).json({ todo: todo });
 });
 
 // DELETE REQUEST
