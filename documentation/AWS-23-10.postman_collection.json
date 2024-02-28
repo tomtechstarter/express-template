@@ -23,7 +23,8 @@
 						"todos",
 						"all"
 					]
-				}
+				},
+				"description": "Retreives all todos from the database"
 			},
 			"response": []
 		},
@@ -55,13 +56,40 @@
 			"response": []
 		},
 		{
+			"name": "Todos-By-UserId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5050/v1/todos/byuserid?userId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"v1",
+						"todos",
+						"byuserid"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create-Todo",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"newTask\": \"Milch kaufen\",\n    \"newIsDone\": true,\n    \"newDueDate\": \"2024-11-10\",\n    \"newUserId\": 1\n}",
+					"raw": "{\n    \"newTask\": \"Milch kaufen\",\n    \"newIsDone\": true,\n    \"newDueDate\": \"2024-11-10\",\n    \"newUserId\": 1,\n    \"address\": {\n        \"street\": \"Milchstraße\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -109,6 +137,36 @@
 						"v1",
 						"todos",
 						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark-Todo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"todoId\": 3,\n    \"newIsDone\": \"stst\"\n  \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/v1/todos/mark",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"v1",
+						"todos",
+						"mark"
 					]
 				}
 			},
