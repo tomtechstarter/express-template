@@ -1,40 +1,8 @@
 const { Router } = require("express");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const todoSequelize = require("../../database/setup/database");
 const TodoModel = require("../../database/models/TodoModel");
 
 const TodosRouter = Router();
-
-let todos = [
-  {
-    id: 1,
-    userId: 1,
-    task: "Wäsche waschen",
-    isDone: true,
-    dueDate: new Date("2024-03-03"),
-  },
-  {
-    id: 2,
-    userId: 1,
-    task: "Müll rausbrigen",
-    isDone: false,
-    dueDate: new Date("2024-03-03"),
-  },
-  {
-    id: 3,
-    userId: 2,
-    task: "Tanzen",
-    isDone: false,
-    dueDate: new Date("2024-03-03"),
-  },
-  {
-    id: 4,
-    userId: 2,
-    task: "Auto fahren",
-    isDone: true,
-    dueDate: new Date("2024-03-03"),
-  },
-];
 
 // GET REQUESTS
 // /v1/todos/bytodoid
@@ -46,15 +14,14 @@ TodosRouter.get("/byid", async (req, res) => {
   }
   const todo = await TodoModel.findOne({ where: { id: todoId } });
 
-  res.status(StatusCodes.OK).json({ todo: todo });
+  res.status(StatusCodes.OK).json({ todo });
 });
 
 // Alle Todos von einer UserId
-TodosRouter.get("/byuserid", (req, res) => {
+TodosRouter.get("/byuserid", async (req, res) => {
   // const userId = req.body.userId;
   // const userId = parseInt(req.query.userId);
   const userId = req.query.userId;
-  console.log(userId);
 
   if (!userId) {
     res
@@ -63,10 +30,9 @@ TodosRouter.get("/byuserid", (req, res) => {
     return;
   }
 
-  const userTodos = todos.filter((todo) => todo.userId == userId);
+  const userTodos = await TodoModel.findAll({ where: { userId } });
 
-  res.status(StatusCodes.OK).json(userTodos);
-  // res.status(StatusCodes.OK).send(JSON.stringify(userTodos)); //alternativ
+  res.status(StatusCodes.OK).json({ todos: userTodos });
 });
 
 TodosRouter.get("/all", async (req, res) => {
@@ -75,23 +41,16 @@ TodosRouter.get("/all", async (req, res) => {
 });
 
 // PUT REQUESTS
-TodosRouter.put("/mark", (req, res) => {
-  const { id, newIsDone } = req.body;
+TodosRouter.put("/mark", async (req, res) => {
+  try {
+    const { todoId, newIsDone } = req.body;
 
-  const todo = todos.find((item) => item.id == id);
+    await TodoModel.update({ isDone: newIsDone }, { where: { id: todoId } });
 
-  // setzt das zuvor definierte todo auf den neuen isDone WErt
-  todo.isDone = newIsDone;
-
-  // Todo rauslöschen
-  const newTodos = todos.filter((item) => item.id != id);
-
-  // Geupdatete Todo wieder hinzufügen
-  newTodos.push(todo);
-
-  todos = newTodos;
-
-  res.status(StatusCodes.OK).json({ updatedTodo: todo });
+    res.status(StatusCodes.OK).json({ updatedTodoId: todoId });
+  } catch (e) {
+    res.status(StatusCodes.BAD_REQUEST).send(e);
+  }
 });
 
 TodosRouter.put("/update", async (req, res) => {
@@ -106,9 +65,7 @@ TodosRouter.put("/update", async (req, res) => {
     { where: { id: todoId } }
   );
 
-  const todo = await TodoModel.findByPk(todoId);
-
-  res.status(StatusCodes.OK).json({ updatedTodo: todo });
+  res.status(StatusCodes.OK).json({ updatedTodoId: todoId });
 });
 
 // POST REQUESTS
