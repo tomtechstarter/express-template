@@ -9,6 +9,10 @@ const todoSequelize = require("./src/database/setup/database");
 
 const PORT = process.env.PORT;
 
+process.env.DB_USERNAME;
+
+console.log("THIS IS MY ENVIRONMENT FILE ", process.env);
+
 // Initialisierung von expres
 const app = express();
 app.use(bodyParser.json());
@@ -20,6 +24,11 @@ todoSequelize
   .sync()
   .then(() => {
     console.log("DB has been successfully initialized");
+    if (process.env.NODE_ENV === "testing") {
+      todoSequelize.dropSchema("Todos").then(() => {
+        todoSequelize.sync();
+      });
+    }
   })
   .catch((e) => {
     console.log(e);
