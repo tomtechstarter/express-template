@@ -72,6 +72,11 @@ TodosRouter.put("/update", async (req, res) => {
 TodosRouter.post("/create", async (req, res) => {
   const { newTask, newIsDone, newDueDate, newUserId } = req.body;
 
+  console.log("Here we are", newTask, newIsDone, newDueDate, newUserId);
+  if (!newTask || !newDueDate || !newUserId) {
+    throw ReferenceError("One of my required Parameters is not defined");
+  }
+
   const newTodo = {
     task: newTask,
     isDone: newIsDone,
