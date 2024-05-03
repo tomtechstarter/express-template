@@ -22,12 +22,22 @@ describe("GET /v1/todos/all", () => {
   test("GET by Id", async () => {
     const todoId = 1;
     const response = await request(app)
-      .get(`/v1/todos/byid?todoId=${todoId}`)
+      .get(`/v1/todos/byid`)
+      .query({ todoId: todoId })
       .expect("Content-Type", /json/)
       .expect(200);
 
     const myTodo = response.body.todo;
     expect(myTodo.id).toEqual(todoId);
+  });
+
+  test("GET by User  Id", async () => {
+    const response = await request(app)
+      .get(`/v1/todos/byid`)
+      .query({})
+      .expect(400);
+
+    expect(response.text).toEqual(ReasonPhrases.BAD_REQUEST);
   });
 
   test("GET by User Id", async () => {
@@ -108,6 +118,10 @@ describe("Test Mutations (PUT,POST, DELETE)", () => {
     // Abfragen von dem Todo direkt aus der DB
     const updatedTodo = await TodoModel.findOne({ where: { id: 1 } });
     expect(updatedTodo.isDone).toEqual(false);
+  });
+
+  test("Test Mark Object", async () => {
+    await request(app).put(`/v1/todos/mark`).send({}).expect(400);
   });
 
   test("Test Mark Object", async () => {

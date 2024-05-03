@@ -45,6 +45,8 @@ TodosRouter.put("/mark", async (req, res) => {
   try {
     const { todoId, newIsDone } = req.body;
 
+    if (!todoId) throw Error("keine User Id");
+
     await TodoModel.update({ isDone: newIsDone }, { where: { id: todoId } });
 
     res.status(StatusCodes.OK).json({ updatedTodoId: todoId });

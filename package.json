@@ -4,7 +4,7 @@
   "description": "1. `npm init` --> Um Projekt zu intitalisieren",
   "main": "index.js",
   "scripts": {
-    "test": "DOTENV_CONFIG_PATH=.test.env jest",
+    "test": "DOTENV_CONFIG_PATH=.test.env jest --coverage",
     "dev": "nodemon -r dotenv/config index.js ",
     "testrun": "nodemon -r dotenv/config index.js dotenv_config_path=.test.env "
   },
