@@ -26,6 +26,11 @@ const UserModel = todoSequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
+    profileImgUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   { tableName: "Users" }
 );

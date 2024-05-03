@@ -8,7 +8,7 @@ function authMiddleWare(req, res, next) {
   }
   try {
     const decodedAccessToken = AccessTokens.decodeAccessToken(token);
-    req.user = decodedAccessToken;
+    req.user = decodedAccessToken; // { userId: 1 }
   } catch (e) {
     return res
       .status(StatusCodes.FORBIDDEN)

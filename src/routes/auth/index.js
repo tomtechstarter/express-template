@@ -27,12 +27,12 @@ AuthRouter.post("/login", async (req, res) => {
 });
 
 AuthRouter.post("/signup", async (req, res) => {
-  const { email, password, name } = req.body;
-  if (!email || !password || !name) {
+  const { email, password, name, profileImgUrl } = req.body;
+  if (!email || !password || !name || !profileImgUrl) {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  const user = await UserModel.create({ email, password, name });
+  const user = await UserModel.create({ email, password, name, profileImgUrl });
   const myToken = AccessTokens.createAccessToken(user.id);
   res.status(StatusCodes.OK).json({ user, tokens: { accessToken: myToken } });
 });
