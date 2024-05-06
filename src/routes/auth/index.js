@@ -14,12 +14,13 @@ AuthRouter.post("/login", async (req, res) => {
     res.status(StatusCodes.BAD_REQUEST).send(ReasonPhrases.BAD_REQUEST);
     return;
   }
-  const user = await UserModel.findOne({ where: { email } });
+  const user = await UserModel.scope("allData").findOne({ where: { email } });
 
   if (user.password !== password) {
     res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED);
     return;
   }
+  user.password = null;
 
   const myToken = AccessTokens.createAccessToken(user.id);
 
@@ -33,6 +34,7 @@ AuthRouter.post("/signup", async (req, res) => {
     return;
   }
   const user = await UserModel.create({ email, password, name, profileImgUrl });
+  user.password = null;
   const myToken = AccessTokens.createAccessToken(user.id);
   res.status(StatusCodes.OK).json({ user, tokens: { accessToken: myToken } });
 });
