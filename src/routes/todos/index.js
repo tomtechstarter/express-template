@@ -45,6 +45,8 @@ TodosRouter.put("/mark", async (req, res) => {
   try {
     const { todoId, newIsDone } = req.body;
 
+    if (!todoId) throw Error("keine User Id");
+
     await TodoModel.update({ isDone: newIsDone }, { where: { id: todoId } });
 
     res.status(StatusCodes.OK).json({ updatedTodoId: todoId });
@@ -71,6 +73,11 @@ TodosRouter.put("/update", async (req, res) => {
 // POST REQUESTS
 TodosRouter.post("/create", async (req, res) => {
   const { newTask, newIsDone, newDueDate, newUserId } = req.body;
+
+  console.log("Here we are", newTask, newIsDone, newDueDate, newUserId);
+  if (!newTask || !newDueDate || !newUserId) {
+    throw ReferenceError("One of my required Parameters is not defined");
+  }
 
   const newTodo = {
     task: newTask,
