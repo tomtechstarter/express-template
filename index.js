@@ -1,5 +1,6 @@
 const todoSequelize = require("./src/database/setup/database");
 const app = require("./src/server");
+const serverless = require("serverless-http");
 
 // Zugriff auf Umgebungsvariablen
 // const { PORT } = process.env;
@@ -15,6 +16,7 @@ todoSequelize
   });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Example app listening on port ${PORT}`);
+// });
+module.exports.handler = serverless(app);
