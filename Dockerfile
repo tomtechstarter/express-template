@@ -9,12 +9,13 @@ COPY package*.json ./
 
 # Installieren von NPM packages 
 # --> --only=production installiert nur dependencies und nicht die devDependencies.
-RUN npm install --only=production
+RUN npm install 
+
 
 # Kopiren des lokalen codes in das Container image.
 COPY . .
 
-CMD ["node", "index.js"]
+CMD ["npm", "run", "dev"]
 
 EXPOSE 5050
 
@@ -26,6 +27,11 @@ EXPOSE 5050
 # Starten des docker 
 # docker run -p <Port auf Computer>:<Port der App in Docker> <name-des-images>
 # Bsp: docker run -p 3000:5050 my-express-app
+
+
+## Docker-Compose
+# Starten von docker-compose: docker-compose up
+# Beenden von docker-compose: docker-compose down
 
 
 

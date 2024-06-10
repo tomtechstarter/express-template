@@ -65,3 +65,8 @@ Hier befindet sich alle Routen mit dem Prefix `/v1/user/...`
 1. Dockerfile erstellen [Hier](./Dockerfile)
 2. `docker build -t my-express-app .`
 3. `docker run -p 3000:5050 my-express-app`
+
+## Docker-Compose
+
+- Starten von docker-compose: `docker-compose up`
+- Beenden von docker-compose: `docker-compose down`
