@@ -58,3 +58,10 @@ Hier befindet sich alle Routen mit dem Prefix `/v1/user/...`
 1. GET - /v1/user/profile: Profil des Nutzers erhalten
 2. PUT - /v1/user/update: Profil Updaten
 3. DELETE /v1/user/delete: Löschen des Benutzers
+
+## Docker
+
+0. Docker muss installiert sein
+1. Dockerfile erstellen [Hier](./Dockerfile)
+2. `docker build -t my-express-app .`
+3. `docker run -p 3000:5050 my-express-app`
