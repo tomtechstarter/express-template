@@ -16,7 +16,6 @@ todoSequelize
   });
 
 // App hört im folgenden auf den Port, welcher über die Umgebungsvariable definiert ist
-// app.listen(PORT, () => {
-//   console.log(`Example app listening on port ${PORT}`);
-// });
-module.exports.handler = serverless(app);
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
+});
