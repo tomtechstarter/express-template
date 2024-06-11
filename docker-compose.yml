@@ -13,7 +13,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - mysql_data:/var/lib/mysql # Persist data
   api-app:
+    restart: on-failure
     build: .
     ports:
       - 5050:5050
@@ -29,3 +32,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  mysql_data:
